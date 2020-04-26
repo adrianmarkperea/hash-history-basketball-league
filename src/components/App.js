@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './Home';
 import Players from './Players';
 import Teams from './Teams';
@@ -11,15 +11,18 @@ function App() {
       <div>
         <Navbar />
 
-        <Route exact path='/'>
-          <Home />
-        </Route>
-        <Route path='/players'>
-          <Players />
-        </Route>
-        <Route path='/teams'>
-          <Teams />
-        </Route>
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route path='/players'>
+            <Players />
+          </Route>
+          <Route path='/teams'>
+            <Teams />
+          </Route>
+          <Route render={() => <h1 className='text-center'>Four oh Four.</h1>} />
+        </Switch>
       </div>
     </Router>
   );
