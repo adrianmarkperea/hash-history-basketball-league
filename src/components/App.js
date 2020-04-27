@@ -4,6 +4,7 @@ import Home from './Home';
 import Players from './Players';
 import Teams from './Teams';
 import Navbar from './Navbar';
+import TeamPage from './TeamPage';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
           </Route>
           <Route path='/teams'>
             <Teams />
+          </Route>
+          <Route exact path='/:teamId'>
+            <TeamPage />
           </Route>
           <Route render={() => <h1 className='text-center'>Four oh Four.</h1>} />
         </Switch>
