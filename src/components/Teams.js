@@ -4,6 +4,7 @@ import { getTeamNames } from '../api';
 import { Route, Link, useLocation, useRouteMatch } from 'react-router-dom';
 import Team from './Team';
 import TeamLogo from './TeamLogo';
+import Loading from './Loading';
 
 function teamsReducer(state, action) {
     if (action.type === 'fetch') {
@@ -57,7 +58,7 @@ function Teams() {
                 <div className='panel'>
                     <Team id={match.params.teamId}>
                         {(team) => team === null
-                            ? <h1>LOADING</h1>
+                            ? <Loading text='Loading Teams' />
                             : <div style={{width: '100%'}}>
                                 <TeamLogo id={team.id} className='center' />
                                 <h1 className='medium-header'>{team.name}</h1>

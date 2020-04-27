@@ -4,6 +4,7 @@ import { getTeamsArticles, getTeamNames } from '../api';
 import TeamLogo from './TeamLogo';
 import Team from './Team';
 import slug from 'slug';
+import Loading from './Loading';
 
 function teamsPageReducer(state, action) {
   if (action.type === 'fetch') {
@@ -57,7 +58,7 @@ function TeamPage() {
     <div>
       <Team id={teamId}>
         {(team) => team === null
-          ? <h1>LOADING</h1>
+          ? <Loading text='Loading Team' />
           : <div className='panel'>
               <TeamLogo id={teamId} />     
               <h1 className='medium-header'>{team.name}</h1>

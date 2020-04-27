@@ -43,7 +43,7 @@ function Players() {
         teamId
             ? fetchPlayers(teamId)
             : fetchPlayers();
-    }, []);
+    }, [query]);
 
     return (
         <div className='container two-column'>
@@ -60,7 +60,7 @@ function Players() {
                 : null}
 
             <Route path={`${match.url}/:playerId`} render={({ match }) => {
-                if (state.loading == true) {
+                if (state.loading === true) {
                     return null;
                 }
 

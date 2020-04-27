@@ -3,6 +3,7 @@ import { Route, useParams, useRouteMatch, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { getTeamsArticles } from '../api';
 import Article from './Article';
+import Loading from './Loading';
 
 function articlesReducer(state, action) {
   if (action.type === 'fetch') {
@@ -24,7 +25,7 @@ function articlesReducer(state, action) {
 function Articles() {
   const location = useLocation();
   const match = useRouteMatch();
-  const { teamId, articleId } = useParams();
+  const { teamId } = useParams();
 
   const [state, dispatch] = React.useReducer(
     articlesReducer,
@@ -44,7 +45,7 @@ function Articles() {
   const {loading, articles} = state;
 
   return loading === true
-    ? <h1>LOADING</h1>
+    ? <Loading text='Loading Articles' />
     : <div className='container two-column'>
         <Sidebar
           loading={loading}
@@ -56,7 +57,7 @@ function Articles() {
 
         <Route path={`${match.url}/:articleId`} render={({ match }) => (
           <Article articleId={match.params.articleId} teamId={teamId}>
-            {(article) => !article ? <h1>LOADING</h1> : (
+            {(article) => !article ? <Loading text='Loading Content' /> : (
               <article className='article' key={article.id}>
                 <h1 className='header'>{article.title}</h1>
                 <p>{article.body}</p>
