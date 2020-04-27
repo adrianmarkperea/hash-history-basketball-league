@@ -58,10 +58,12 @@ function Articles() {
         <Route path={`${match.url}/:articleId`} render={({ match }) => (
           <Article articleId={match.params.articleId} teamId={teamId}>
             {(article) => !article ? <Loading text='Loading Content' /> : (
-              <article className='article' key={article.id}>
-                <h1 className='header'>{article.title}</h1>
-                <p>{article.body}</p>
-              </article>
+              <div className='panel'>
+                <article className='article' key={article.id}>
+                  <h1 className='header'>{article.title}</h1>
+                  <p>{article.body}</p>
+                </article>
+              </div>
             )}
           </Article>
         )}/>
