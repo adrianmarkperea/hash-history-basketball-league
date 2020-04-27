@@ -4,6 +4,10 @@ import { useQuery } from '../helpers';
 import Sidebar from './Sidebar';
 import { getPlayers } from '../api';
 import slug from 'slug';
+import {
+    TransitionGroup,
+    CSSTransition
+} from 'react-transition-group';
 
 function playersReducer(state, action) {
     if (action.type === 'fetch') {
@@ -24,7 +28,7 @@ function playersReducer(state, action) {
 function Players() {
     const location = useLocation();
     const match = useRouteMatch();
-    const query = useQuery();
+    const { teamId } = useQuery();
     const [state, dispatch] = React.useReducer(
         playersReducer,
         {players: [], loading: true}
@@ -38,12 +42,10 @@ function Players() {
     };
 
     React.useEffect(() => {
-        const teamId = query.get('teamId');
-
         teamId
             ? fetchPlayers(teamId)
             : fetchPlayers();
-    }, [query]);
+    }, [teamId]);
 
     return (
         <div className='container two-column'>
@@ -69,30 +71,34 @@ function Players() {
                 } = state.players.find((player) => slug(player.name) === match.params.playerId);
                 
                 return (
-                    <div className='panel'>
-                        <img className='avatar' src={avatar} alt={`${name}'s avatar`} />
-                        <h1 className='medium-header'>{name}</h1>
-                        <h3 className='header'>#{number}</h3>
-                        <div className='row'>
-                            <ul className='info-list' style={{marginRight: 80}}>
-                                <li>Team
-                                    <div>
-                                        <Link style={{color: '#68809a'}} to={`/${teamId}`}>
-                                            {teamId[0].toUpperCase() + teamId.slice(1)}
-                                        </Link>
-                                    </div>
-                                </li>    
-                                <li>Position<div>{position}</div></li>
-                                <li>PPG<div>{ppg}</div></li>
-                            </ul> 
-                            <ul className='info-list'>
-                                <li>APG<div>{apg}</div></li>
-                                <li>SPG<div>{spg}</div></li>
-                                <li>RPG<div>{rpg}</div></li>
-                            </ul>
-                        </div>
-                    </div>
-                )
+                    <TransitionGroup className='panel'>
+                        <CSSTransition key={location.key} timeout={250} classNames={'fade'}>
+                            <div className='panel'>
+                                <img className='avatar' src={avatar} alt={`${name}'s avatar`} />
+                                <h1 className='medium-header'>{name}</h1>
+                                <h3 className='header'>#{number}</h3>
+                                <div className='row'>
+                                    <ul className='info-list' style={{marginRight: 80}}>
+                                        <li>Team
+                                            <div>
+                                                <Link style={{color: '#68809a'}} to={`/${teamId}`}>
+                                                    {teamId[0].toUpperCase() + teamId.slice(1)}
+                                                </Link>
+                                            </div>
+                                        </li>    
+                                        <li>Position<div>{position}</div></li>
+                                        <li>PPG<div>{ppg}</div></li>
+                                    </ul> 
+                                    <ul className='info-list'>
+                                        <li>APG<div>{apg}</div></li>
+                                        <li>SPG<div>{spg}</div></li>
+                                        <li>RPG<div>{rpg}</div></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </CSSTransition>
+                    </TransitionGroup>
+                );
             }}/>
         </div>
     );
